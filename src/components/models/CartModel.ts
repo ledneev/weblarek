@@ -64,7 +64,7 @@ export class CartModel {
       return total + (item.price || 0);
     }, 0);
   }
-  
+
   clear(): void {
     this.items = [];
   }

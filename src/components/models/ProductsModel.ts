@@ -26,10 +26,10 @@ export class ProductsModel {
   }
 
   /**
- * Получает товар по идентификатору
- * @param id - уникальный идентификатор товара
- * @returns копию объекта товара или undefined если не найден
- */
+   * Получает товар по идентификатору
+   * @param id - уникальный идентификатор товара
+   * @returns копию объекта товара или undefined если не найден
+   */
 
   getProductById(id: string): IProduct | undefined {
     if (!id || typeof id !== "string") {
@@ -46,20 +46,20 @@ export class ProductsModel {
   }
 
   /**
- * Сохраняет товар для детального просмотра в модальном окне
- * @param item - товар для отображения или null для сброса выбора
- */
+   * Сохраняет товар для детального просмотра в модальном окне
+   * @param item - товар для отображения или null для сброса выбора
+   */
 
   setSelectedItem(item: IProduct | null): void {
-  if (item === null) {
-    this.selectedItem = undefined;
-    return;
+    if (item === null) {
+      this.selectedItem = undefined;
+      return;
+    }
+
+    if (!item || typeof item !== "object") {
+      throw new Error("Не валидный обьект");
+    }
+
+    this.selectedItem = { ...item };
   }
-  
-  if (!item || typeof item !== 'object') {
-    throw new Error('Не валидный обьект');
-  }
-  
-  this.selectedItem = { ...item };
-}
 }

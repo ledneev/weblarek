@@ -56,7 +56,7 @@ export class BuyerModel {
 
     return errors;
   }
-  
+
   clear(): void {
     this.data = {};
   }
