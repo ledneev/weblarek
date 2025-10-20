@@ -119,6 +119,20 @@ export interface IProduct {
   price: number | null;
 
 }
+
+Описание структуры покупателя в каталоге:
+
+export interface IBuyer {
+
+  payment: TPayment;
+
+  email: string;
+
+  phone: string;
+  
+  address: string;
+} 
+
 ### **2. Раздел "Модели данных"**
 ## Модели данных
 
