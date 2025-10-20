@@ -98,3 +98,53 @@ Presenter - презентер содержит основную логику п
 `emit<T extends object>(event: string, data?: T): void` - инициализация события. При вызове события в метод передается название события и объект с данными, который будет использован как аргумент для вызова обработчика.  
 `trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие с передачей в него данных из второго параметра.
 
+## Данные
+
+### Интерфейс IProduct
+
+Описание структуры товара в каталоге:
+
+export interface IProduct {
+
+  id: string;
+
+  description: string;
+
+  image: string;
+
+  title: string;
+
+  category: string;
+
+  price: number | null;
+
+}
+### **2. Раздел "Модели данных"**
+## Модели данных
+
+### Класс ProductsModel
+
+**Назначение:** Управление каталогом товаров. Отвечает за хранение списка товаров и выбранного для детального просмотра товара.
+
+**Конструктор:**
+constructor(initialItems: IProduct[] = []) 
+ `initialItems` - начальный массив товаров для инициализации каталога
+
+Поля класса:
+
+-   `private items: IProduct[]` - массив всех товаров каталога
+
+-   `private selectedItem: IProduct | undefined` - товар, выбранный для детального просмотра
+
+Методы:
+
+-   `setItems(items: IProduct[]): void` - сохраняет массив товаров
+
+-   `getItems(): IProduct[]` - возвращает копию массива всех товаров
+
+-   `getProductById(id: string): IProduct | undefined` - находит товар по ID
+
+-   `setSelectedItem(item: IProduct | null): void` - сохраняет товар для детального просмотра
+
+-   `getSelectedItem(): IProduct | undefined` - возвращает выбранный товар
+
