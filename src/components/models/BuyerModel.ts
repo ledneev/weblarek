@@ -1,4 +1,4 @@
-import { IBuyer } from "../../types";
+import { IBuyer, ValidationErrors } from "../../types";
 /**
  * Модель для работы с данными покупателя
  * Отвечает за хранение и валидацию данных заказа
@@ -35,8 +35,8 @@ export class BuyerModel {
    * @returns объект с ошибками валидации
    * Если поле валидно, оно отсутствует в объекте
    */
-  validate(): Partial<Record<keyof IBuyer, string>> {
-    const errors: Partial<Record<keyof IBuyer, string>> = {};
+  validate(): ValidationErrors {
+    const errors: ValidationErrors = {};
 
     if (!this.data.payment) {
       errors.payment = "Не выбран вид оплаты";
