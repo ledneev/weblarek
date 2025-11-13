@@ -53,6 +53,7 @@ console.log("После очистки:", buyerModel.getData());
 //Тестируем работу с сервером
 import { ApiService } from "./components/models/ApiService";
 import { Api } from "./components/base/Api";
+import { cloneTemplate } from "./utils/utils";
 
 const baseUrl = import.meta.env.VITE_API_ORIGIN;
 
@@ -70,3 +71,6 @@ apiService
   .catch((error) => {
     console.error("Ошибка получения товаров:", error);
   });
+
+
+  

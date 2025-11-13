@@ -33,7 +33,7 @@ export class Modal extends Component<IModal>{
   }
 
   set content(content:HTMLElement){
-    this.modalContent.append(content);
+    this.modalContent.replaceChildren(content);
   }
 
   //методы управления состоянием окна
