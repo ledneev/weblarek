@@ -2,13 +2,22 @@ import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
 
 /**
- * Базовый класс карточки товара
- * Содержит общие поля и методы для всех карточек
+ * @class Card
+ * @extends Component<T>
+ * @template T Тип данных, представляющий товар.
+ * @classdesc Базовый класс для представления карточки товара.
  */
+
 export class Card<T> extends Component<T> {
   protected _title?: HTMLElement;
   protected _price?: HTMLElement;
   protected _button?: HTMLButtonElement;
+
+  /**
+   * @constructor
+   * @param {IEvents} events - Обработчик событий.
+   * @param {HTMLElement} container - Корневой элемент карточки.
+   */
 
   constructor(
     protected events: IEvents,
@@ -22,7 +31,9 @@ export class Card<T> extends Component<T> {
   }
 
   set title(value: string) {
-    if (this._title) this._title.textContent = value;
+    if (this._title) {
+      this._title.textContent = value;
+    }
   }
 
   set price(value: number | null) {
