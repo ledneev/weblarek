@@ -19,15 +19,12 @@ export class Card<T> extends Component<T> {
    * @param {HTMLElement} container - Корневой элемент карточки.
    */
 
-  constructor(
-    protected events: IEvents,
-    protected container: HTMLElement
-  ) {
+  constructor(protected events: IEvents, protected container: HTMLElement) {
     super(container);
 
-    this._title = this.container.querySelector('.card__title') || undefined;
-    this._price = this.container.querySelector('.card__price') || undefined;
-    this._button = this.container.querySelector('button') || undefined;
+    this._title = this.container.querySelector(".card__title") || undefined;
+    this._price = this.container.querySelector(".card__price") || undefined;
+    this._button = this.container.querySelector("button") || undefined;
   }
 
   set title(value: string) {
@@ -38,7 +35,7 @@ export class Card<T> extends Component<T> {
 
   set price(value: number | null) {
     if (this._price) {
-      this._price.textContent = value ? `${value} синапсов` : 'Бесценно';
+      this._price.textContent = value ? `${value} синапсов` : "Бесценно";
     }
   }
 }

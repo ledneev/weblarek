@@ -22,30 +22,33 @@ export abstract class Form<T> extends Component<T> {
    * @param {HTMLElement} container - Корневой DOM-элемент формы.
    */
 
-  constructor(
-    protected events: IEvents,
-    container: HTMLElement
-  ) {
+  constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
 
-    this.submitButton = ensureElement<HTMLButtonElement>('button[type="submit"]', this.container);
-    this.errorsContainer = ensureElement<HTMLElement>('.form__errors', this.container);
-    this.container.addEventListener('submit', (event: SubmitEvent) => {
+    this.submitButton = ensureElement<HTMLButtonElement>(
+      'button[type="submit"]',
+      this.container
+    );
+    this.errorsContainer = ensureElement<HTMLElement>(
+      ".form__errors",
+      this.container
+    );
+    this.container.addEventListener("submit", (event: SubmitEvent) => {
       event.preventDefault();
       // Эмитим событие 'form:submit', передавая имя класса формы.
-      this.events.emit('form:submit', {
-        form: this.constructor.name
+      this.events.emit("form:submit", {
+        form: this.constructor.name,
       });
     });
 
-    this.container.addEventListener('input', (event: Event) => {
+    this.container.addEventListener("input", (event: Event) => {
       const target = event.target as HTMLInputElement;
       if (target && target.name) {
         // Эмитим событие 'form:input', передавая имя поля, его значение и имя класса формы.
-        this.events.emit('form:input', {
+        this.events.emit("form:input", {
           field: target.name,
           value: target.value,
-          form: this.constructor.name
+          form: this.constructor.name,
         });
       }
     });
@@ -64,8 +67,8 @@ export abstract class Form<T> extends Component<T> {
    * Устанавливает сообщения об ошибках валидации, отображая их в соответствующем контейнере.
    * @param {string[]} errors - Массив строк с сообщениями об ошибках.
    */
-  
+
   set errors(errors: string[]) {
-    this.errorsContainer.textContent = errors.join(', ');
+    this.errorsContainer.textContent = errors.join(", ");
   }
 }

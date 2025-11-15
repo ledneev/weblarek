@@ -34,11 +34,16 @@ export class Success extends Component<ISuccessData> {
   constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
 
-    this.descriptionElement = ensureElement<HTMLElement>('.order-success__description', this.container);
-    this.closeButton = ensureElement<HTMLButtonElement>('.order-success__close', this.container);
-    this.closeButton.addEventListener('click', () => {
-      // Эмитим событие 'success: close', сигнализируя о том, что сообщение нужно закрыть.
-      this.events.emit('success: close'); // Внимание: возможная опечатка в имени события ('success:close' было бы более типично)
+    this.descriptionElement = ensureElement<HTMLElement>(
+      ".order-success__description",
+      this.container
+    );
+    this.closeButton = ensureElement<HTMLButtonElement>(
+      ".order-success__close",
+      this.container
+    );
+    this.closeButton.addEventListener("click", () => {
+      this.events.emit("success:close");
     });
   }
 

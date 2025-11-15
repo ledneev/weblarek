@@ -19,7 +19,7 @@ interface IGallery {
  * Управляет контейнером, в который добавляются DOM-элементы карточек.
  */
 
-export class Gallery extends Component<IGallery>{
+export class Gallery extends Component<IGallery> {
   protected catalogElement: HTMLElement;
 
   /**
@@ -28,10 +28,10 @@ export class Gallery extends Component<IGallery>{
    * @param {HTMLElement} container - Корневой DOM-элемент, в котором находится галерея.
    */
 
-  constructor(protected events: IEvents, container: HTMLElement){
+  constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
 
-    this.catalogElement = ensureElement<HTMLElement>('.gallery', this.container);
+    this.catalogElement = container;
   }
 
   /**
@@ -40,9 +40,9 @@ export class Gallery extends Component<IGallery>{
    * @param {HTMLElement[]} elements - Массив DOM-элементов карточек для отображения.
    */
 
-  set items(elements: HTMLElement[]){
-    this.catalogElement.innerHTML = '';
-    elements.forEach(element => {
+  set items(elements: HTMLElement[]) {
+    this.catalogElement.innerHTML = "";
+    elements.forEach((element) => {
       this.catalogElement.appendChild(element);
     });
   }

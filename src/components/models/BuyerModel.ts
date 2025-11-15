@@ -1,7 +1,9 @@
 import { IBuyer, ValidationErrors } from "../../types";
+import { IEvents } from "../base/Events";
 /**
  * Модель для работы с данными покупателя
  * Отвечает за хранение и валидацию данных заказа
+ * @emits 'customer:changed' при изменении данных покупателя
  */
 export class BuyerModel {
   private data: Partial<IBuyer> = {};
@@ -13,7 +15,7 @@ export class BuyerModel {
    * @example
    * new CustomerModel({ email: 'test@mail.ru', phone: '+79991234567' })
    */
-  constructor(initialData?: Partial<IBuyer>) {
+  constructor(private events: IEvents, initialData?: Partial<IBuyer>) {
     if (initialData) {
       this.data = { ...initialData };
     }
@@ -24,6 +26,7 @@ export class BuyerModel {
       throw new Error("Не объект");
     }
     this.data = { ...this.data, ...data };
+    this.events.emit('customer:changed');
   }
 
   getData(): Partial<IBuyer> {
@@ -46,18 +49,33 @@ export class BuyerModel {
       errors.address = "Укажите адрес";
     }
 
-    if (!this.data.phone) {
-      errors.phone = "Укажите телефон";
+     if (!this.data.phone) {
+      errors.phone = 'Укажите телефон';
+    } else if (!this.isValidPhone(this.data.phone)) {
+      errors.phone = 'Некорректный формат телефона';
     }
 
     if (!this.data.email) {
-      errors.email = "Укажите email";
+      errors.email = 'Укажите email';
+    } else if (!this.isValidEmail(this.data.email)) {
+      errors.email = 'Некорректный формат email';
     }
 
     return errors;
   }
 
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  private isValidPhone(phone: string): boolean {
+    const phoneRegex = /^(\+7|8)[\s-]?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
+    return phoneRegex.test(phone);
+  }
+
   clear(): void {
     this.data = {};
+    this.events.emit('customer:changed');
   }
 }

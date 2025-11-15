@@ -1,13 +1,14 @@
 import { ensureElement } from "../../utils/utils";
 import { Card } from "./Card";
 import { IEvents } from "../base/Events";
+import { CDN_URL } from "../../utils/constants";
 
 const categoryMap: Record<string, string> = {
-  'софт-скил': 'card__category_soft',
-  'хард-скил': 'card__category_hard',
-  'кнопка': 'card__category_button',
-  'дополнительное': 'card__category_additional',
-  'другое': 'card__category_other',
+  "софт-скил": "card__category_soft",
+  "хард-скил": "card__category_hard",
+  кнопка: "card__category_button",
+  дополнительное: "card__category_additional",
+  другое: "card__category_other",
 };
 
 /**
@@ -72,7 +73,8 @@ export class CardPreview extends Card<ICardPreviewData> {
   }
 
   set image(value: string) {
-    this.setImage(this.imageElement, value, this.title);
+    const fullImagePath = CDN_URL + value;
+    this.setImage(this.imageElement, fullImagePath, this.title);
   }
 
   /**
@@ -80,7 +82,7 @@ export class CardPreview extends Card<ICardPreviewData> {
    * Использует ту же логику, что и в CardCatalog.
    * @param {string} value - Название категории товара.
    */
-  
+
   set category(value: string) {
     this.categoryElement.textContent = value;
     for (const key in categoryMap) {
@@ -98,5 +100,18 @@ export class CardPreview extends Card<ICardPreviewData> {
 
   set id(value: string) {
     this.container.dataset.id = value;
+  }
+
+  set buttonText(value: string) {
+    this.button.textContent = value;
+  }
+
+  set disabled(value: boolean) {
+    this.button.disabled = value;
+    if (value) {
+      this.button.classList.add("button_disabled");
+    } else {
+      this.button.classList.remove("button_disabled");
+    }
   }
 }

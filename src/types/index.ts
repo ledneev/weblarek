@@ -42,3 +42,8 @@ export interface IOrderResult {
 }
 
 export type ValidationErrors = Partial<Record<keyof IBuyer, string>>;
+
+export interface IProductListResponse {
+  total: number;
+  items: IProduct[];
+}

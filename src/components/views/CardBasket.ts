@@ -35,11 +35,17 @@ export class CardBasket extends Card<ICardBasketData> {
   constructor(events: IEvents, container: HTMLElement) {
     super(events, container);
 
-    this.indexElement = ensureElement<HTMLElement>('.basket__item-index', this.container);
-    this.deleteButton = ensureElement<HTMLButtonElement>('.basket__item-delete', this.container);
-    this.deleteButton.addEventListener('click', () => {
+    this.indexElement = ensureElement<HTMLElement>(
+      ".basket__item-index",
+      this.container
+    );
+    this.deleteButton = ensureElement<HTMLButtonElement>(
+      ".basket__item-delete",
+      this.container
+    );
+    this.deleteButton.addEventListener("click", () => {
       // Эмитим событие 'product:remove', передавая ID товара из data-атрибута контейнера.
-      this.events.emit('product:remove', { id: this.container.dataset.id });
+      this.events.emit("product:remove", { id: this.container.dataset.id });
     });
   }
 
@@ -51,7 +57,7 @@ export class CardBasket extends Card<ICardBasketData> {
    * Устанавливает ID товара, сохраняя его в data-атрибуте контейнера.
    * @param {string} value - ID товара.
    */
-  
+
   set id(value: string) {
     this.container.dataset.id = value;
   }

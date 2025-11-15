@@ -7,6 +7,7 @@ import { IEvents } from "../base/Events";
  * @interface
  * @description Интерфейс данных, представляющий поля формы оформления заказа.
  */
+
 interface IOrderFormData {
   payment: string;
   address: string;
@@ -20,6 +21,7 @@ interface IOrderFormData {
  * Расширяет абстрактный класс `Form`, предоставляя специфичную логику
  * для выбора способа оплаты и установки адреса.
  */
+
 export class OrderForm extends Form<IOrderFormData> {
   protected paymentButtons: HTMLButtonElement[];
   protected addressInput: HTMLInputElement;
@@ -33,12 +35,16 @@ export class OrderForm extends Form<IOrderFormData> {
     super(events, container);
 
     // Находим все кнопки, которые могут быть кнопками выбора оплаты.
-    this.paymentButtons = Array.from(this.container.querySelectorAll('button[name]'));
-    this.addressInput = ensureElement<HTMLInputElement>('input[name="address"]', this.container);
-    this.paymentButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        // При клике эмитим событие 'payment:select', передавая имя выбранного метода оплаты.
-        this.events.emit('payment:select', { payment: button.name });
+    this.paymentButtons = Array.from(
+      this.container.querySelectorAll("button[name]")
+    );
+    this.addressInput = ensureElement<HTMLInputElement>(
+      'input[name="address"]',
+      this.container
+    );
+    this.paymentButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        this.events.emit("payment:select", { payment: button.name });
       });
     });
   }
@@ -48,9 +54,9 @@ export class OrderForm extends Form<IOrderFormData> {
    * @param {string} value - Название выбранного метода оплаты (должно соответствовать `name` кнопки).
    */
   set payment(value: string) {
-    this.paymentButtons.forEach(button => {
+    this.paymentButtons.forEach((button) => {
       // Добавляем класс 'button_alt-active' к активной кнопке оплаты и удаляем его у остальных.
-      button.classList.toggle('button_alt-active', button.name === value);
+      button.classList.toggle("button_alt-active", button.name === value);
     });
   }
 

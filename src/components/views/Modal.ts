@@ -8,8 +8,8 @@ import { IEvents } from "../base/Events";
  * @description Интерфейс данных, управляющих состоянием модального окна.
  */
 
-interface IModal{
-  content:HTMLElement; // Содержимое, которое будет отображено внутри модального окна.
+interface IModal {
+  content: HTMLElement; // Содержимое, которое будет отображено внутри модального окна.
 }
 
 /**
@@ -22,9 +22,9 @@ interface IModal{
  * @property content - Устанавливает новый DOM-элемент в качестве содержимого модального окна.
  */
 
-export class Modal extends Component<IModal>{
-  protected modalCloseBtn:HTMLButtonElement;
-  protected modalContent:HTMLElement;
+export class Modal extends Component<IModal> {
+  protected modalCloseBtn: HTMLButtonElement;
+  protected modalContent: HTMLElement;
 
   /**
    * @constructor
@@ -32,35 +32,40 @@ export class Modal extends Component<IModal>{
    * @param {HTMLElement} container - Корневой DOM-элемент модального окна (вероятно, элемент с классом '.modal').
    */
 
-  constructor(protected events: IEvents, container:HTMLElement){
+  constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
 
-    this.modalCloseBtn = ensureElement<HTMLButtonElement>('.modal__close', this.container);
-    this.modalContent = ensureElement<HTMLElement>('.modal__content', this.container);
+    this.modalCloseBtn = ensureElement<HTMLButtonElement>(
+      ".modal__close",
+      this.container
+    );
+    this.modalContent = ensureElement<HTMLElement>(
+      ".modal__content",
+      this.container
+    );
 
-    this.modalCloseBtn.addEventListener('click',() => this.close() );
+    this.modalCloseBtn.addEventListener("click", () => this.close());
 
-    this.container.addEventListener('click',(event) => {
-      if(event.target === this.container){
-        this.close()
+    this.container.addEventListener("click", (event) => {
+      if (event.target === this.container) {
+        this.close();
       }
-    })
+    });
   }
 
   /**
    * Заменяет текущее содержимое модального окна новым DOM-узлом.
    * @param {HTMLElement} content - Новый элемент, который нужно отобразить.
    */
-  set content(content:HTMLElement){
+  set content(content: HTMLElement) {
     this.modalContent.replaceChildren(content);
   }
 
-  open(): void{
-    this.container.classList.add('modal_active');
+  open(): void {
+    this.container.classList.add("modal_active");
   }
 
-  close(): void{
-    this.container.classList.remove('modal_active');
-    this.events.emit('modal:close'); // Эмитим событие о закрытии.
+  close(): void {
+    this.container.classList.remove("modal_active");
   }
 }

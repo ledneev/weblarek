@@ -20,7 +20,7 @@ interface IHeader {
  * @emits 'basket:open' при клике на кнопку корзины.
  */
 
-export class Header extends Component<IHeader>{
+export class Header extends Component<IHeader> {
   protected counterElement: HTMLElement;
   protected basketButton: HTMLButtonElement;
 
@@ -30,18 +30,24 @@ export class Header extends Component<IHeader>{
    * @param {HTMLElement} container - Корневой DOM-элемент шапки.
    */
 
-  constructor(protected events: IEvents, container: HTMLElement){
+  constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
 
-    this.counterElement = ensureElement<HTMLElement>('.header__basket-counter', this.container);
-    this.basketButton = ensureElement<HTMLButtonElement>('.header__basket', this.container);
-    this.basketButton.addEventListener('click', () => {
+    this.counterElement = ensureElement<HTMLElement>(
+      ".header__basket-counter",
+      this.container
+    );
+    this.basketButton = ensureElement<HTMLButtonElement>(
+      ".header__basket",
+      this.container
+    );
+    this.basketButton.addEventListener("click", () => {
       // При клике эмитим событие 'basket:open', которое сигнализирует о необходимости открыть корзину.
-      this.events.emit('basket:open');
+      this.events.emit("basket:open");
     });
   }
 
-  set counter(value: number){
+  set counter(value: number) {
     this.counterElement.textContent = String(value);
   }
 }

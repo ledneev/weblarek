@@ -1,15 +1,16 @@
 import { ensureElement } from "../../utils/utils";
 import { Card } from "./Card";
 import { IEvents } from "../base/Events";
+import { CDN_URL } from "../../utils/constants";
 
 // Карта соответствия названий категорий CSS-классам для стилизации.
 // Ключи: названия категорий, Значения: соответствующие CSS-классы.
 const categoryMap: Record<string, string> = {
-  'софт-скил': 'card__category_soft',
-  'хард-скил': 'card__category_hard',
-  'кнопка': 'card__category_button',
-  'дополнительное': 'card__category_additional',
-  'другое': 'card__category_other',
+  "софт-скил": "card__category_soft",
+  "хард-скил": "card__category_hard",
+  кнопка: "card__category_button",
+  дополнительное: "card__category_additional",
+  другое: "card__category_other",
 };
 
 /**
@@ -47,12 +48,18 @@ export class CardCatalog extends Card<ICardCatalogData> {
   constructor(events: IEvents, container: HTMLElement) {
     super(events, container);
 
-    this.categoryElement = ensureElement<HTMLElement>('.card__category', this.container);
-    this.imageElement = ensureElement<HTMLImageElement>('.card__image', this.container);
-    this.button = ensureElement<HTMLButtonElement>('.gallery__item', this.container);
-    this.button.addEventListener('click', () => {
+    this.categoryElement = ensureElement<HTMLElement>(
+      ".card__category",
+      this.container
+    );
+    this.imageElement = ensureElement<HTMLImageElement>(
+      ".card__image",
+      this.container
+    );
+    this.button = this.container as HTMLButtonElement;
+    this.button.addEventListener("click", () => {
       // Эмитим событие 'card:select', передавая ID товара из data-атрибута контейнера.
-      this.events.emit('card:select', { id: this.container.dataset.id });
+      this.events.emit("card:select", { id: this.container.dataset.id });
     });
   }
 
@@ -75,14 +82,15 @@ export class CardCatalog extends Card<ICardCatalogData> {
   }
 
   set image(value: string) {
-    this.setImage(this.imageElement, value, this.title);
+    const fullImagePath = CDN_URL + value;
+    this.setImage(this.imageElement, fullImagePath, this.title);
   }
 
   /**
    * Устанавливает ID товара, сохраняя его в data-атрибуте контейнера.
    * @param {string} value - ID товара.
    */
-  
+
   set id(value: string) {
     this.container.dataset.id = value;
   }
