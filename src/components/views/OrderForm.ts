@@ -34,7 +34,6 @@ export class OrderForm extends Form<IOrderFormData> {
   constructor(events: IEvents, container: HTMLElement) {
     super(events, container);
 
-    // Находим все кнопки, которые могут быть кнопками выбора оплаты.
     this.paymentButtons = Array.from(
       this.container.querySelectorAll("button[name]")
     );
@@ -42,9 +41,17 @@ export class OrderForm extends Form<IOrderFormData> {
       'input[name="address"]',
       this.container
     );
+
     this.paymentButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        this.events.emit("payment:select", { payment: button.name });
+        const formName = this.container.getAttribute("name");
+        if (formName) {
+          this.events.emit("form:input", {
+            field: "payment",
+            value: button.name,
+            form: formName,
+          });
+        }
       });
     });
   }

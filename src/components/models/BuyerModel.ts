@@ -26,7 +26,7 @@ export class BuyerModel {
       throw new Error("Не объект");
     }
     this.data = { ...this.data, ...data };
-    this.events.emit('customer:changed');
+    this.events.emit("customer:changed");
   }
 
   getData(): Partial<IBuyer> {
@@ -49,33 +49,19 @@ export class BuyerModel {
       errors.address = "Укажите адрес";
     }
 
-     if (!this.data.phone) {
-      errors.phone = 'Укажите телефон';
-    } else if (!this.isValidPhone(this.data.phone)) {
-      errors.phone = 'Некорректный формат телефона';
+    if (!this.data.phone) {
+      errors.phone = "Укажите телефон";
     }
 
     if (!this.data.email) {
-      errors.email = 'Укажите email';
-    } else if (!this.isValidEmail(this.data.email)) {
-      errors.email = 'Некорректный формат email';
+      errors.email = "Укажите email";
     }
 
     return errors;
   }
 
-  private isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
-  private isValidPhone(phone: string): boolean {
-    const phoneRegex = /^(\+7|8)[\s-]?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
-    return phoneRegex.test(phone);
-  }
-
   clear(): void {
     this.data = {};
-    this.events.emit('customer:changed');
+    this.events.emit("customer:changed");
   }
 }

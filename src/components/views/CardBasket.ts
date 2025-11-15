@@ -1,5 +1,5 @@
 import { ensureElement } from "../../utils/utils";
-import { Card } from "./Card";
+import { Card, ICardActions } from "./Card";
 import { IEvents } from "../base/Events";
 
 /**
@@ -12,6 +12,10 @@ interface ICardBasketData {
   title: string;
   price: number | null;
   index: number;
+}
+
+interface ICardBasketActions extends ICardActions {
+  onDelete: (event: MouseEvent) => void;
 }
 
 /**
@@ -32,8 +36,8 @@ export class CardBasket extends Card<ICardBasketData> {
    * @param {HTMLElement} container - Корневой элемент карточки корзины.
    */
 
-  constructor(events: IEvents, container: HTMLElement) {
-    super(events, container);
+  constructor(container: HTMLElement, actions?: ICardBasketActions) {
+    super(container);
 
     this.indexElement = ensureElement<HTMLElement>(
       ".basket__item-index",
@@ -43,22 +47,12 @@ export class CardBasket extends Card<ICardBasketData> {
       ".basket__item-delete",
       this.container
     );
-    this.deleteButton.addEventListener("click", () => {
-      // Эмитим событие 'product:remove', передавая ID товара из data-атрибута контейнера.
-      this.events.emit("product:remove", { id: this.container.dataset.id });
-    });
+    if (actions?.onDelete) {
+      this.deleteButton.addEventListener("click", actions.onDelete);
+    }
   }
 
   set index(value: number) {
     this.indexElement.textContent = String(value);
-  }
-
-  /**
-   * Устанавливает ID товара, сохраняя его в data-атрибуте контейнера.
-   * @param {string} value - ID товара.
-   */
-
-  set id(value: string) {
-    this.container.dataset.id = value;
   }
 }

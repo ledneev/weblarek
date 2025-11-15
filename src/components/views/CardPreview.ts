@@ -1,15 +1,7 @@
 import { ensureElement } from "../../utils/utils";
-import { Card } from "./Card";
+import { Card, ICardActions } from "./Card";
 import { IEvents } from "../base/Events";
-import { CDN_URL } from "../../utils/constants";
-
-const categoryMap: Record<string, string> = {
-  "софт-скил": "card__category_soft",
-  "хард-скил": "card__category_hard",
-  кнопка: "card__category_button",
-  дополнительное: "card__category_additional",
-  другое: "card__category_other",
-};
+import { CDN_URL, categoryMap } from "../../utils/constants";
 
 /**
  * @interface ICardPreviewData
@@ -46,8 +38,8 @@ export class CardPreview extends Card<ICardPreviewData> {
    * @param {HTMLElement} container - Корневой элемент карточки предпросмотра.
    */
 
-  constructor(events: IEvents, container: HTMLElement) {
-    super(events, container);
+  constructor(container: HTMLElement, actions?: ICardActions) {
+    super(container, actions);
 
     this.imageElement = ensureElement<HTMLImageElement>(
       ".card__image",
@@ -65,11 +57,6 @@ export class CardPreview extends Card<ICardPreviewData> {
       ".card__button",
       this.container
     );
-
-    this.button.addEventListener("click", () => {
-      // Эмитим событие 'product:buy', передавая ID товара из data-атрибута контейнера.
-      this.events.emit("product:buy", { id: this.container.dataset.id });
-    });
   }
 
   set image(value: string) {
@@ -108,10 +95,5 @@ export class CardPreview extends Card<ICardPreviewData> {
 
   set disabled(value: boolean) {
     this.button.disabled = value;
-    if (value) {
-      this.button.classList.add("button_disabled");
-    } else {
-      this.button.classList.remove("button_disabled");
-    }
   }
 }

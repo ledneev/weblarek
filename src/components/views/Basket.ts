@@ -10,6 +10,7 @@ import { IEvents } from "../base/Events";
 interface IBasketData {
   items: HTMLElement[];
   total: number;
+  empty: boolean;
 }
 
 /**
@@ -51,8 +52,6 @@ export class Basket extends Component<IBasketData> {
       // Эмитим событие 'order:start', сигнализируя о начале процесса оформления заказа.
       this.events.emit("order:start");
     });
-
-    this.items = [];
   }
 
   /**
@@ -62,23 +61,14 @@ export class Basket extends Component<IBasketData> {
    */
 
   set items(elements: HTMLElement[]) {
-    if (elements.length > 0) {
-      // Если элементы есть, показываем стандартный список
-      this.listElement.replaceChildren(...elements);
-      this.button.disabled = false;
-    } else {
-      // Если корзина пуста, добавляем специальный элемент
-      const emptyMessage = document.createElement("li");
-      emptyMessage.classList.add("basket__empty-message");
-      emptyMessage.textContent = "Корзина пуста";
-
-      this.listElement.innerHTML = "";
-      this.listElement.appendChild(emptyMessage);
-      this.button.disabled = true;
-    }
+    this.listElement.replaceChildren(...elements); // ← ПРОСТО ЗАМЕНЯЕМ ДЕТЕЙ
   }
 
   set total(value: number) {
     this.totalElement.textContent = `${value} синапсов`;
+  }
+
+  set empty(value: boolean) {
+    this.button.disabled = value;
   }
 }

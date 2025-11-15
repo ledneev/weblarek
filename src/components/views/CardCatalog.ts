@@ -2,16 +2,7 @@ import { ensureElement } from "../../utils/utils";
 import { Card } from "./Card";
 import { IEvents } from "../base/Events";
 import { CDN_URL } from "../../utils/constants";
-
-// Карта соответствия названий категорий CSS-классам для стилизации.
-// Ключи: названия категорий, Значения: соответствующие CSS-классы.
-const categoryMap: Record<string, string> = {
-  "софт-скил": "card__category_soft",
-  "хард-скил": "card__category_hard",
-  кнопка: "card__category_button",
-  дополнительное: "card__category_additional",
-  другое: "card__category_other",
-};
+import { categoryMap } from "../../utils/constants";
 
 /**
  * @interface ICardCatalogData
@@ -24,6 +15,10 @@ interface ICardCatalogData {
   category: string;
   title: string;
   price: number | null; // Цена товара (может отсутствовать).
+}
+
+interface ICardCatalogActions {
+  onClick: (event: MouseEvent) => void;
 }
 
 /**
@@ -41,12 +36,11 @@ export class CardCatalog extends Card<ICardCatalogData> {
 
   /**
    * @constructor
-   * @param {IEvents} events - Обработчик событий.
    * @param {HTMLElement} container - Корневой элемент карточки каталога.
    */
 
-  constructor(events: IEvents, container: HTMLElement) {
-    super(events, container);
+  constructor(container: HTMLElement, actions?: ICardCatalogActions) {
+    super(container, actions);
 
     this.categoryElement = ensureElement<HTMLElement>(
       ".card__category",
@@ -57,10 +51,8 @@ export class CardCatalog extends Card<ICardCatalogData> {
       this.container
     );
     this.button = this.container as HTMLButtonElement;
-    this.button.addEventListener("click", () => {
-      // Эмитим событие 'card:select', передавая ID товара из data-атрибута контейнера.
-      this.events.emit("card:select", { id: this.container.dataset.id });
-    });
+
+    //обработчик вынес в общий класс
   }
 
   /**

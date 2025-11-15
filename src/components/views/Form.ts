@@ -33,23 +33,26 @@ export abstract class Form<T> extends Component<T> {
       ".form__errors",
       this.container
     );
+
     this.container.addEventListener("submit", (event: SubmitEvent) => {
       event.preventDefault();
-      // Эмитим событие 'form:submit', передавая имя класса формы.
-      this.events.emit("form:submit", {
-        form: this.constructor.name,
-      });
+      const formName = this.container.getAttribute("name");
+      if (formName) {
+        this.events.emit(`${formName}:submit`);
+      }
     });
 
     this.container.addEventListener("input", (event: Event) => {
       const target = event.target as HTMLInputElement;
       if (target && target.name) {
-        // Эмитим событие 'form:input', передавая имя поля, его значение и имя класса формы.
-        this.events.emit("form:input", {
-          field: target.name,
-          value: target.value,
-          form: this.constructor.name,
-        });
+        const formName = this.container.getAttribute("name");
+        if (formName) {
+          this.events.emit("form:input", {
+            field: target.name,
+            value: target.value,
+            form: formName,
+          });
+        }
       }
     });
   }

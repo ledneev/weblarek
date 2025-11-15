@@ -41,9 +41,6 @@ export class Gallery extends Component<IGallery> {
    */
 
   set items(elements: HTMLElement[]) {
-    this.catalogElement.innerHTML = "";
-    elements.forEach((element) => {
-      this.catalogElement.appendChild(element);
-    });
+    this.catalogElement.replaceChildren(...elements);
   }
 }
